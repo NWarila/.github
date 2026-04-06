@@ -19,7 +19,7 @@ GitHub can reuse the following files from this repository:
 | `CONTRIBUTING.md` | Default contribution guidance |
 | `SECURITY.md` | Default vulnerability reporting instructions |
 | `SUPPORT.md` | Default support routing |
-| `FUNDING.yml` | Default sponsorship configuration |
+| `.github/FUNDING.yml` | Default sponsorship configuration |
 | `.github/ISSUE_TEMPLATE/` | Default issue forms and issue chooser config |
 | `.github/pull_request_template.md` | Default pull request template |
 

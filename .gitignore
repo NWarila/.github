@@ -1,0 +1,60 @@
+**
+# Allow the allowlist itself so tracked scope stays auditable.
+!/.gitignore
+
+# Allow git attributes so line endings and diffs stay deterministic.
+!/.gitattributes
+
+# Allow the GitHub config root so inherited defaults and repo automation are versioned.
+!/.github/
+
+# Allow issue template directory so default intake forms stay tracked.
+!/.github/ISSUE_TEMPLATE/
+
+# Allow workflow directory so repo-local validation stays tracked.
+!/.github/workflows/
+
+# Allow funding config so GitHub Sponsors metadata stays versioned.
+!/.github/FUNDING.yml
+
+# Allow bug form so default defect intake stays consistent across repos.
+!/.github/ISSUE_TEMPLATE/01-bug-report.yml
+
+# Allow feature form so enhancement requests stay structured.
+!/.github/ISSUE_TEMPLATE/02-feature-request.yml
+
+# Allow documentation form so docs fixes route through a dedicated template.
+!/.github/ISSUE_TEMPLATE/03-documentation.yml
+
+# Allow issue chooser config so support and security links stay intentional.
+!/.github/ISSUE_TEMPLATE/config.yml
+
+# Allow Dependabot config so workflow dependency updates stay automated here.
+!/.github/dependabot.yml
+
+# Allow PR template so contribution expectations stay consistent.
+!/.github/pull_request_template.md
+
+# Allow repo CI workflow so this control-plane repo validates itself.
+!/.github/workflows/repo-ci.yml
+
+# Allow markdownlint config so local and CI markdown rules match.
+!/.markdownlint-cli2.jsonc
+
+# Allow code of conduct so community standards are inherited by default.
+!/CODE_OF_CONDUCT.md
+
+# Allow contribution guide so repos inherit the default contribution flow.
+!/CONTRIBUTING.md
+
+# Allow license so this repo itself remains clearly licensed.
+!/LICENSE
+
+# Allow README so the special repo's operating model stays documented.
+!/README.md
+
+# Allow security policy so private reporting guidance is inherited by default.
+!/SECURITY.md
+
+# Allow support policy so help routes consistently across repos.
+!/SUPPORT.md
