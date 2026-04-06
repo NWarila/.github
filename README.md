@@ -1,61 +1,65 @@
 # .github
 
-Default community health files, issue/PR templates, and shared GitHub metadata for repositories owned by [NWarila](https://github.com/NWarila).
+Default GitHub metadata for repositories owned by
+[NWarila](https://github.com/NWarila).
 
-## What this repo does
+## Purpose
 
-This is a [special `.github` repository](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file). Files here are inherited by other repositories under this account that don't have their own versions.
+This is the special account-level `.github` repository for the personal
+`NWarila` account. It exists to hold durable defaults that GitHub can reuse
+across repositories when a repository does not define its own local version.
 
-### Inherited defaults
+## Inherited Defaults
+
+GitHub can reuse the following files from this repository:
 
 | File | Purpose |
 |------|---------|
-| `CODE_OF_CONDUCT.md` | Default community standards for repos without their own |
-| `CONTRIBUTING.md` | Contribution guidelines for all repos |
-| `SECURITY.md` | Vulnerability reporting instructions |
-| `SUPPORT.md` | Where to get help |
-| `FUNDING.yml` | GitHub Sponsors link |
-| `.github/ISSUE_TEMPLATE/` | Bug report, feature request, and documentation issue forms |
-| `.github/pull_request_template.md` | Default PR template |
+| `CODE_OF_CONDUCT.md` | Default community standards |
+| `CONTRIBUTING.md` | Default contribution guidance |
+| `SECURITY.md` | Default vulnerability reporting instructions |
+| `SUPPORT.md` | Default support routing |
+| `FUNDING.yml` | Default sponsorship configuration |
+| `.github/ISSUE_TEMPLATE/` | Default issue forms and issue chooser config |
+| `.github/pull_request_template.md` | Default pull request template |
 
-### Not inherited (requires manual action)
+## Repo-Local Only
 
-| File | Why |
-|------|-----|
-| `LICENSE` | GitHub does not support default licenses; each repo needs its own |
-| `README.md` | Each repo needs its own |
-| `CODEOWNERS` | Not supported as a default |
-| `.github/dependabot.yml` | Not supported as a default |
+The following files in this repository are important here, but are not
+inherited by other repositories:
 
-## How overrides work
+| File | Why it stays local |
+|------|--------------------|
+| `README.md` | Documents the operating model of this special repo |
+| `LICENSE` | Each repository needs its own license file |
+| `.github/dependabot.yml` | Dependabot must be configured per repository |
+| `.github/workflows/` | These workflows validate this repo itself |
 
-If a repository has its own version of any file listed above, the local file takes precedence. GitHub does not merge defaults with local files.
+## Override Rules
 
-For issue templates specifically: if a repository has **anything** in its own `.github/ISSUE_TEMPLATE/` directory, GitHub ignores the entire default template folder from this repo for that repository.
+If a repository has its own version of an inherited file, the local file wins.
+GitHub does not merge local and default content.
 
-## Reusable workflows
+For issue templates specifically: if a repository has anything in its own
+`.github/ISSUE_TEMPLATE/` directory, GitHub ignores the entire default issue
+template directory from this repo for that repository.
 
-Once available (Tier 2), reusable workflows in this repo are called using the double `.github` path:
+## Change Discipline
 
-```yaml
-jobs:
-  ci:
-    uses: NWarila/.github/.github/workflows/reusable-ci.yml@<full-commit-SHA>
-```
+Changes here can affect every repository under this account that does not have
+local overrides. Before merging:
 
-Consumer repos should pin to commit SHAs and use Dependabot (`github-actions` ecosystem) to receive update PRs.
+1. Verify policy files and templates still point to the right routes.
+2. Test issue form changes in GitHub before broad rollout.
+3. Ensure repo CI passes.
 
-## Making changes here
+## Documentation Rule
 
-Changes in this repo can affect every repository under this account that doesn't have local overrides. Before merging:
+Keep durable operating guidance in this `README.md`.
 
-1. Check that policy files cross-link correctly
-2. Test issue forms in a scratch repo if modified
-3. Verify CI passes
-
-## Pending setup
-
-- [ ] Verify the community profile recognizes `CODE_OF_CONDUCT.md`; if GitHub does not mark it complete, re-add it through the [GitHub UI template flow](https://github.com/NWarila/.github/community) to get the green checkmark
+Do not keep temporary planning artifacts in this repository. If a future change
+creates a real long-lived architectural decision, capture the rationale in
+`docs/adr/` at that time instead of maintaining a standing plan document.
 
 ## License
 
