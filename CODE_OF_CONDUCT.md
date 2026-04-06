@@ -40,3 +40,7 @@ The maintainer may remove content, lock conversations, reject contributions, or 
 Good-faith reporters will not be penalized for raising concerns.
 
 This code of conduct supplements GitHub's Terms of Service and Acceptable Use Policies.
+
+## Attribution
+
+Adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 3.0. Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
