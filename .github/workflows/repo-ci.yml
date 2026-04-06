@@ -1,0 +1,30 @@
+name: Repo CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    name: Lint workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: reviewdog/action-actionlint@05c6a15458d58ad163638e7eea7e24e0bce0804c # v1.65.2
+        with:
+          reporter: local
+          fail_level: error
+
+  markdownlint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: DavidAnson/markdownlint-cli2-action@db43aef879112c3119a410d69f66571e6d3571d6 # v18.0.0
+        with:
+          globs: "**/*.md"
