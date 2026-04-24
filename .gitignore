@@ -61,3 +61,15 @@
 
 # Allow support policy so help routes consistently across repos.
 !/SUPPORT.md
+
+# Allow documentation directory so inherited governance artefacts stay versioned.
+!/docs/
+
+# Allow ADR directory so architectural decisions are auditable across repos.
+!/docs/ADR/
+
+# Allow ADR template so per-repo ADRs start from a canonical source.
+!/docs/ADR/adr-template.md
+
+# Allow ADR worked example so contributors see the template filled in.
+!/docs/ADR/adr-example.md
