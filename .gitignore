@@ -65,11 +65,16 @@
 # Allow documentation directory so inherited governance artefacts stay versioned.
 !/docs/
 
-# Allow ADR directory so architectural decisions are auditable across repos.
-!/docs/ADR/
+# Allow decision-records directory so architectural decisions are auditable.
+!/docs/decision-records/
 
-# Allow ADR template so per-repo ADRs start from a canonical source.
-!/docs/ADR/adr-template.md
+# Allow decision-records README so the index of org-level ADRs stays tracked.
+!/docs/decision-records/README.md
 
-# Allow ADR worked example so contributors see the template filled in.
-!/docs/ADR/adr-example.md
+# Allow individual org-baseline ADRs (mirrored byte-for-byte into every
+# adopting child repository's docs/decision-records/org/).
+!/docs/decision-records/0001-use-architecture-decision-records.md
+!/docs/decision-records/0002-adopt-diataxis-documentation-framework.md
+!/docs/decision-records/0003-use-deny-all-gitignore-strategy.md
+!/docs/decision-records/0004-use-renovate-for-dependency-updates.md
+!/docs/decision-records/0005-pin-terraform-and-provider-versions-exactly.md
