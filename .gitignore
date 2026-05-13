@@ -44,6 +44,10 @@
 # Allow markdownlint config so local and CI markdown rules match.
 !/.markdownlint-cli2.jsonc
 
+# Allow repo-local validation tools.
+!/tools/
+!/tools/check_baseline_manifest.py
+
 # Allow code of conduct so community standards are inherited by default.
 !/CODE_OF_CONDUCT.md
 
