@@ -8,6 +8,9 @@
 # Allow the GitHub config root so inherited defaults and repo automation are versioned.
 !/.github/
 
+# Allow CODEOWNERS so repository ownership stays enforced.
+!/.github/CODEOWNERS
+
 # Allow issue template directory so default intake forms stay tracked.
 !/.github/ISSUE_TEMPLATE/
 
@@ -50,6 +53,9 @@
 # Allow license so this repo itself remains clearly licensed.
 !/LICENSE
 
+# Allow baseline manifest so drift-gate has an authoritative org source list.
+!/baseline-manifest.json
+
 # Allow README so the special repo's operating model stays documented.
 !/README.md
 
@@ -65,8 +71,26 @@
 # Allow documentation directory so inherited governance artefacts stay versioned.
 !/docs/
 
+# Allow Diataxis skeleton sentinels mirrored into adopting repositories.
+!/docs/tutorials/
+!/docs/tutorials/.gitkeep
+!/docs/how-to/
+!/docs/how-to/.gitkeep
+!/docs/reference/
+!/docs/reference/.gitkeep
+!/docs/explanation/
+!/docs/explanation/.gitkeep
+
 # Allow decision-records directory so architectural decisions are auditable.
 !/docs/decision-records/
+
+# Allow decision-record scope skeleton sentinels mirrored into adopting repos.
+!/docs/decision-records/org/
+!/docs/decision-records/org/.gitkeep
+!/docs/decision-records/template/
+!/docs/decision-records/template/.gitkeep
+!/docs/decision-records/repo/
+!/docs/decision-records/repo/.gitkeep
 
 # Allow decision-records README so the index of org-level ADRs stays tracked.
 !/docs/decision-records/README.md
