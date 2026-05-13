@@ -40,6 +40,12 @@ inherited by other repositories:
 If a repository has its own version of an inherited file, the local file wins.
 GitHub does not merge local and default content.
 
+Repositories that adopt this org baseline through `drift-gate` intentionally
+commit local copies of selected inherited files and keep them byte-identical to
+this repository's `baseline-manifest.json`. Repo-specific procedure belongs in
+that repository's `docs/` tree rather than in drift-gated community-health
+files.
+
 For issue templates specifically: if a repository has anything in its own
 `.github/ISSUE_TEMPLATE/` directory, GitHub ignores the entire default issue
 template directory from this repo for that repository.

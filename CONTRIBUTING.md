@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing. This guide applies to all repositories under [NWarila](https://github.com/NWarila) unless a repository has its own `CONTRIBUTING.md`.
+Thanks for your interest in contributing. This guide applies to repositories under [NWarila](https://github.com/NWarila).
 
 ## How to contribute
 
@@ -43,6 +43,6 @@ Use [Discussions](https://github.com/NWarila/.github/discussions) for questions,
 
 All contributors are expected to follow the project's code of conduct. See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
 
-## Repository-specific overrides
+## Repository-specific guidance
 
-Individual repositories may have their own `CONTRIBUTING.md` with different or additional guidelines. When present, the repository-specific version takes precedence over this default.
+Repositories that adopt the org drift-gated baseline keep this file byte-identical with `NWarila/.github`. Repository-specific contributor guidance belongs in that repository's Diataxis docs, usually `docs/how-to/develop-this-module.md` or an adjacent how-to guide.
