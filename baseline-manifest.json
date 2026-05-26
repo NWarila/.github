@@ -68,6 +68,18 @@
     {
       "source": "docs/explanation/.gitkeep",
       "target": "docs/explanation/.gitkeep"
+    },
+    {
+      "source": ".github/workflows/reusable-auto-merge.yaml",
+      "target": ".github/workflows/reusable-auto-merge.yaml"
+    },
+    {
+      "source": ".github/workflows/reusable-release-please.yaml",
+      "target": ".github/workflows/reusable-release-please.yaml"
+    },
+    {
+      "source": ".github/workflows/reusable-scorecard.yaml",
+      "target": ".github/workflows/reusable-scorecard.yaml"
     }
   ]
 }
