@@ -41,6 +41,11 @@
 # Allow repo CI workflow so this control-plane repo validates itself.
 !/.github/workflows/repo-ci.yml
 
+# Allow canonical reusable workflows that template repos drift-gate against.
+!/.github/workflows/reusable-auto-merge.yaml
+!/.github/workflows/reusable-release-please.yaml
+!/.github/workflows/reusable-scorecard.yaml
+
 # Allow markdownlint config so local and CI markdown rules match.
 !/.markdownlint-cli2.jsonc
 
