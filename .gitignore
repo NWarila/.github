@@ -20,6 +20,9 @@
 # Allow funding config so GitHub Sponsors metadata stays versioned.
 !/.github/FUNDING.yml
 
+# Allow this repo's own Renovate config (governs only .github's own deps; not an org baseline — ADR-0004).
+!/.github/renovate.json5
+
 # Allow bug form so default defect intake stays consistent across repos.
 !/.github/ISSUE_TEMPLATE/01-bug-report.yml
 

@@ -40,14 +40,13 @@ This repository tracks dependency updates via Renovate, the org standard per
 [ADR-0004](docs/decision-records/0004-use-renovate-for-dependency-updates.md).
 Dependabot is not used anywhere under the account.
 
-Per ADR-0004 Confirmation §6, the org `.github` repository intentionally holds
-**no** `.github/renovate.json5`: the org tier exists for ADRs and policies, not
-Renovate config. Renovate baselines live at the type-template tier (e.g.
-`NWarila/packer-framework-template/.github/renovate.json5`), and each consumer
-extends its type-template. The handful of GitHub Actions SHA pins in this repo's
-own `.github/workflows/` are kept current by the org-wide Renovate App
-installation, which discovers `github-actions` `uses:` pins without per-repo
-config.
+Per ADR-0004, this org `.github` repository carries its own `.github/renovate.json5`
+that governs **only its own** dependencies — the `github-actions` SHA pins in its
+reusable workflows — so the org repo's own supply chain stays current. This is
+**not** an org-level baseline: no consumer extends it. Consumers extend their
+type-template's baseline (e.g.
+`NWarila/packer-framework-template/.github/renovate.json5`); there is no _shared_
+org Renovate config.
 
 ## Override Rules
 
