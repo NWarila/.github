@@ -105,9 +105,15 @@ added per repository based on its content.
 
 ## Dependency Management
 
-Dependabot is configured per repository for the relevant package ecosystems.
-GitHub Actions dependencies are updated weekly across all repositories to
-prevent drift and reduce exposure to supply-chain vulnerabilities.
+Renovate is the org standard for dependency updates per
+[ADR-0004](docs/decision-records/0004-use-renovate-for-dependency-updates.md);
+Dependabot is not used. Each type-template owns a self-contained
+`.github/renovate.json5` baseline that its consumers extend. GitHub Actions
+SHA pins, and any other supported ecosystems, are updated on a weekly cadence
+to prevent drift and reduce exposure to supply-chain vulnerabilities. This org
+`.github` repository carries its own `.github/renovate.json5` (per ADR-0004) that
+governs only its own `github-actions` pins; it is not an org-level baseline and
+no consumer extends it.
 
 ## File Hygiene Conventions
 

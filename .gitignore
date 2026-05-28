@@ -20,6 +20,9 @@
 # Allow funding config so GitHub Sponsors metadata stays versioned.
 !/.github/FUNDING.yml
 
+# Allow this repo's own Renovate config (governs only .github's own deps; not an org baseline — ADR-0004).
+!/.github/renovate.json5
+
 # Allow bug form so default defect intake stays consistent across repos.
 !/.github/ISSUE_TEMPLATE/01-bug-report.yml
 
@@ -31,9 +34,6 @@
 
 # Allow issue chooser config so support and security links stay intentional.
 !/.github/ISSUE_TEMPLATE/config.yml
-
-# Allow Dependabot config so workflow dependency updates stay automated here.
-!/.github/dependabot.yml
 
 # Allow PR template so contribution expectations stay consistent.
 !/.github/pull_request_template.md
