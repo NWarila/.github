@@ -32,8 +32,22 @@ inherited by other repositories:
 |------|--------------------|
 | `README.md` | Documents the operating model of this special repo |
 | `LICENSE` | Each repository needs its own license file |
-| `.github/dependabot.yml` | Dependabot must be configured per repository |
 | `.github/workflows/` | These workflows validate this repo itself |
+
+## Dependency Updates
+
+This repository tracks dependency updates via Renovate, the org standard per
+[ADR-0004](docs/decision-records/0004-use-renovate-for-dependency-updates.md).
+Dependabot is not used anywhere under the account.
+
+Per ADR-0004 Confirmation §6, the org `.github` repository intentionally holds
+**no** `.github/renovate.json5`: the org tier exists for ADRs and policies, not
+Renovate config. Renovate baselines live at the type-template tier (e.g.
+`NWarila/packer-framework-template/.github/renovate.json5`), and each consumer
+extends its type-template. The handful of GitHub Actions SHA pins in this repo's
+own `.github/workflows/` are kept current by the org-wide Renovate App
+installation, which discovers `github-actions` `uses:` pins without per-repo
+config.
 
 ## Override Rules
 

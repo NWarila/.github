@@ -32,9 +32,6 @@
 # Allow issue chooser config so support and security links stay intentional.
 !/.github/ISSUE_TEMPLATE/config.yml
 
-# Allow Dependabot config so workflow dependency updates stay automated here.
-!/.github/dependabot.yml
-
 # Allow PR template so contribution expectations stay consistent.
 !/.github/pull_request_template.md
 
