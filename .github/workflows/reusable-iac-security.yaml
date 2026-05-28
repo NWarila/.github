@@ -104,7 +104,7 @@ jobs:
         # SARIF upload requires GitHub Advanced Security on private repos.
         # continue-on-error keeps the scan job green even when the upload
         # is rejected — findings still appear in the run log.
-        uses: github/codeql-action/upload-sarif@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         if: always()
         continue-on-error: true
         with:
@@ -142,7 +142,7 @@ jobs:
         # rejected — the gitleaks step above remains the gate.
         if: always() && hashFiles('gitleaks.sarif') != ''
         continue-on-error: true
-        uses: github/codeql-action/upload-sarif@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
           sarif_file: gitleaks.sarif
 
@@ -215,7 +215,7 @@ jobs:
       - name: Upload zizmor SARIF
         if: always()
         continue-on-error: true
-        uses: github/codeql-action/upload-sarif@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
           sarif_file: zizmor.sarif
           category: zizmor
