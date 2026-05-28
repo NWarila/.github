@@ -36,3 +36,15 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - run: python tools/check_baseline_manifest.py
+
+  # Smoke-test the repo-hygiene reusable by calling it against this repo itself.
+  # actionlint (above) only checks syntax; this exercises the real runtime path
+  # (OPA download/install, build_opa_input, opa eval) and proves .github passes
+  # its own universal policy before any consumer pins this reusable.
+  repo-hygiene-smoke:
+    name: Smoke-test reusable-repo-hygiene (self)
+    permissions:
+      contents: read
+    uses: ./.github/workflows/reusable-repo-hygiene.yaml
+    with:
+      source_ref: ${{ github.event.pull_request.head.sha || github.sha }}
