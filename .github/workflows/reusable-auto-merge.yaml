@@ -47,6 +47,15 @@ on:
         required: false
         type: string
         default: squash
+      smoke:
+        description: |
+          Smoke-test mode for NWarila/.github's own repo-ci. When true, the
+          authorize job runs even without a pull_request payload (so the
+          trust-check bash is exercised in CI) and the enable-auto-merge job
+          is suppressed, so no PR is ever merged. Consumers never set this.
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -63,7 +72,7 @@ jobs:
     outputs:
       trusted: ${{ steps.decide.outputs.trusted }}
     if: |
-      github.event.pull_request.draft == false
+      inputs.smoke || github.event.pull_request.draft == false
     steps:
       - name: Decide whether to enable auto-merge
         id: decide
@@ -101,7 +110,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    if: needs.authorize-auto-merge.outputs.trusted == 'true'
+    if: ${{ !inputs.smoke && needs.authorize-auto-merge.outputs.trusted == 'true' }}
     steps:
       - name: Enable auto-merge
         env:

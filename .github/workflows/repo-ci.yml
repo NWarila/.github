@@ -41,6 +41,10 @@ jobs:
   # actionlint (above) only checks syntax; this exercises the real runtime path
   # (OPA download/install, build_opa_input, opa eval) and proves .github passes
   # its own universal policy before any consumer pins this reusable.
+  # Every universal reusable is smoke-tested by calling it against .github
+  # itself. actionlint (above) is syntax-only; these jobs exercise each
+  # reusable's real runtime path so a runtime bug is caught here before any
+  # consumer pins the reusable (the rationale of AGENTS.md Phase A.0).
   repo-hygiene-smoke:
     name: Smoke-test reusable-repo-hygiene (self)
     permissions:
@@ -48,3 +52,55 @@ jobs:
     uses: ./.github/workflows/reusable-repo-hygiene.yaml
     with:
       source_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+  codeql-smoke:
+    name: Smoke-test reusable-codeql (self)
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    uses: ./.github/workflows/reusable-codeql.yaml
+    # Default matrix is the `actions` language — analyzes .github's own
+    # workflows, which is exactly the runtime path this repo must prove.
+
+  iac-security-smoke:
+    name: Smoke-test reusable-iac-security (self)
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    uses: ./.github/workflows/reusable-iac-security.yaml
+    # All inputs optional; defaults run trivy + gitleaks + zizmor (the
+    # fragile pip-install / docker-digest / inline-SARIF runtime paths).
+
+  scorecard-smoke:
+    name: Smoke-test reusable-scorecard (self)
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
+      actions: read
+    uses: ./.github/workflows/reusable-scorecard.yaml
+    # publish_results defaults to false: runs the scorecard analysis + SARIF
+    # upload without publishing to the public API.
+
+  auto-merge-smoke:
+    name: Smoke-test reusable-auto-merge (self)
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: ./.github/workflows/reusable-auto-merge.yaml
+    with:
+      # Exercises the trust-check authorize bash; enable-auto-merge is
+      # suppressed in smoke mode, so no PR is ever merged.
+      smoke: true
+
+  release-please-smoke:
+    name: Smoke-test reusable-release-please (self)
+    permissions:
+      contents: read
+    uses: ./.github/workflows/reusable-release-please.yaml
+    with:
+      # Validates the reusable's wiring/inputs; the release-please action and
+      # evidence dispatch are skipped (side effects), so no release is made.
+      smoke: true
