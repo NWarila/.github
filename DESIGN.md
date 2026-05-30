@@ -85,7 +85,7 @@ by all repositories that do not define their own:
 | `CODE_OF_CONDUCT.md` | Establishes consistent community standards (Contributor Covenant 3.0) |
 | `CONTRIBUTING.md` | Routes contributions through structured templates and a consistent workflow |
 | `SECURITY.md` | Directs vulnerability reports to private channels with defined response timelines |
-| `SUPPORT.md` | Routes questions to Discussions and prevents issue tracker noise |
+| `SUPPORT.md` | Routes questions to the Issues tab and prevents issue tracker noise |
 
 ## Issue and Pull Request Templates
 
