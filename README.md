@@ -38,7 +38,9 @@ inherited by other repositories:
 
 This repository tracks dependency updates via Renovate, the org standard per
 [ADR-0004](docs/decision-records/0004-use-renovate-for-dependency-updates.md).
-Dependabot is not used anywhere under the account.
+Dependabot **version** updates are not used anywhere under the account — Renovate
+opens all version-bump PRs. Dependabot **security** alerts and security updates
+remain enabled as a separate safety net.
 
 Per ADR-0004, this org `.github` repository carries its own `.github/renovate.json5`
 that governs **only its own** dependencies — the `github-actions` SHA pins in its
@@ -78,7 +80,7 @@ Keep durable operating guidance in this `README.md`.
 
 Do not keep temporary planning artifacts in this repository. If a future change
 creates a real long-lived architectural decision, capture the rationale in
-`docs/adr/` at that time instead of maintaining a standing plan document.
+`docs/decision-records/` at that time instead of maintaining a standing plan document.
 
 ## License
 
