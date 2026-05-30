@@ -56,7 +56,7 @@ history from multi-commit branches.
 
 ## Security Features
 
-All repositories enable the full set of GitHub security features regardless of
+All repositories enable the core set of GitHub security features regardless of
 visibility:
 
 - **Secret scanning**: detects known credential patterns in repository
@@ -64,10 +64,13 @@ visibility:
 - **Push protection**: blocks pushes containing detected secrets before they
   enter the repository. Prevention is orders of magnitude better than
   detection after the fact.
-- **AI-powered secret detection**: catches non-standard credential formats
-  that pattern-based scanning misses.
 - **Dependency alerts and security updates**: surfaces known vulnerabilities
   in declared dependencies and offers automated remediation.
+
+AI-powered / non-provider secret detection — which catches non-standard
+credential formats that provider-pattern scanning misses — is the intended
+posture and is enabled opt-in where supported, rather than uniformly enabled
+across the fleet today.
 
 These features are free for all repository visibilities and have no meaningful
 downside.
@@ -82,7 +85,7 @@ by all repositories that do not define their own:
 | `CODE_OF_CONDUCT.md` | Establishes consistent community standards (Contributor Covenant 3.0) |
 | `CONTRIBUTING.md` | Routes contributions through structured templates and a consistent workflow |
 | `SECURITY.md` | Directs vulnerability reports to private channels with defined response timelines |
-| `SUPPORT.md` | Routes questions to Discussions and prevents issue tracker noise |
+| `SUPPORT.md` | Routes questions to the Issues tab and prevents issue tracker noise |
 
 ## Issue and Pull Request Templates
 
@@ -107,7 +110,9 @@ added per repository based on its content.
 
 Renovate is the org standard for dependency updates per
 [ADR-0004](docs/decision-records/0004-use-renovate-for-dependency-updates.md);
-Dependabot is not used. Each type-template owns a self-contained
+Dependabot **version** updates are not used (Renovate opens all version-bump
+PRs), while Dependabot **security** alerts and security updates remain enabled
+as a separate safety net. Each type-template owns a self-contained
 `.github/renovate.json5` baseline that its consumers extend. GitHub Actions
 SHA pins, and any other supported ecosystems, are updated on a weekly cadence
 to prevent drift and reduce exposure to supply-chain vulnerabilities. This org
