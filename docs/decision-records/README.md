@@ -29,6 +29,7 @@ The format used here is established by [ADR-0001](0001-use-architecture-decision
 | [0003](0003-use-deny-all-gitignore-strategy.md)        | Use a Deny-All `.gitignore` Strategy                           | Accepted | 2026-04-25 | Adopt deny-all `.gitignore` with explicit allowlist as the default tracking strategy for adopting repositories. |
 | [0004](0004-use-renovate-for-dependency-updates.md)    | Use Renovate for Dependency Updates with Per-Template Baselines | Accepted | 2026-05-05 | Standardize on Renovate for all `NWarila/*` repos with type-template baselines that consuming repos extend. |
 | [0005](0005-pin-terraform-and-provider-versions-exactly.md) | Pin Terraform and Provider Versions Exactly              | Accepted | 2026-05-05 | All Terraform configurations in `NWarila/*` pin the Terraform CLI and provider versions exactly using the `=` operator; Renovate uses `rangeStrategy: "pin"`. Refines ADR-0004's rangeStrategy guidance. |
+| [0006](0006-keep-github-control-planes-namespace-local.md) | Keep GitHub Control Planes Namespace-Local              | Accepted | 2026-06-01 | Repositories use their owning namespace's `.github` control plane for org ADRs, community files, repo hygiene, and reusable workflow callers. |
 
 ## Status Lifecycle
 
