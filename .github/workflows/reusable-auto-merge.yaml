@@ -6,7 +6,6 @@ name: Reusable Auto-Merge
 #
 # Trusted authors:
 #   - renovate[bot]
-#   - dependabot[bot]
 #
 # Anything not on the trusted list is left alone for human review. We never
 # auto-merge human-authored PRs, and we deliberately do not trust the broad
@@ -84,7 +83,6 @@ jobs:
 
           declare -a trusted_authors=(
             "renovate[bot]"
-            "dependabot[bot]"
           )
 
           trusted=0
