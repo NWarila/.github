@@ -33,14 +33,7 @@ on:
         required: false
         type: string
         default: "1.10.0"
-      advisory:
-        description: |
-          When true, the policy step still runs but never fails the job.
-          Useful for consumers transitioning toward conformance whose
-          existing repos have known findings.
-        required: false
-        type: boolean
-        default: false
+
 
 permissions:
   contents: read
@@ -109,19 +102,6 @@ jobs:
           echo "bytes=$(wc -c < opa-input.json)" >> "${GITHUB_OUTPUT}"
 
       - name: Evaluate repo_hygiene policy
-        if: ${{ !inputs.advisory }}
-        run: |
-          set -euo pipefail
-          opa eval \
-            --fail-defined \
-            --format pretty \
-            --input opa-input.json \
-            --data policy-source/policies/opa \
-            'data.repo_hygiene.deny[_]'
-
-      - name: Evaluate repo_hygiene policy (advisory mode)
-        if: ${{ inputs.advisory }}
-        continue-on-error: true
         run: |
           set -euo pipefail
           opa eval \
