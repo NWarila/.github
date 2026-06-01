@@ -42,6 +42,10 @@
       "target": "docs/decision-records/org/0005-pin-terraform-and-provider-versions-exactly.md"
     },
     {
+      "source": "docs/decision-records/0006-keep-github-control-planes-namespace-local.md",
+      "target": "docs/decision-records/org/0006-keep-github-control-planes-namespace-local.md"
+    },
+    {
       "source": "docs/decision-records/org/.gitkeep",
       "target": "docs/decision-records/org/.gitkeep"
     },

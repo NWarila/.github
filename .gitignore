@@ -122,3 +122,4 @@
 !/docs/decision-records/0003-use-deny-all-gitignore-strategy.md
 !/docs/decision-records/0004-use-renovate-for-dependency-updates.md
 !/docs/decision-records/0005-pin-terraform-and-provider-versions-exactly.md
+!/docs/decision-records/0006-keep-github-control-planes-namespace-local.md
