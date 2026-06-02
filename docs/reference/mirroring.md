@@ -24,7 +24,7 @@ Org governance is namespace-local. A `NWarila/*` repository mirrors org ADRs and
 
 ## Org ADR Auto-Sync
 
-Repositories that already mirror org ADRs should carry a scheduled caller for the namespace-local `reusable-org-adr-auto-sync.yaml`. The caller runs from the adopting repository, so its sync token can only update that repository. It fetches the owning namespace `.github` baseline manifest, copies only `docs/decision-records/org/` targets, removes stale mirrored ADR Markdown files, updates the adopting repository's `org-adr-sync.yaml` source pin when present, and opens or refreshes a PR.
+Repositories that already mirror org ADRs should carry a scheduled caller for the namespace-local `reusable-org-adr-auto-sync.yaml`. The caller runs from the adopting repository, so its sync token can only update that repository. It fetches the owning namespace `.github` `org-adr-manifest.json`, copies only `docs/decision-records/org/` targets, removes stale mirrored ADR Markdown files, updates the adopting repository's ADR-only detector source pin when present, and opens or refreshes a PR.
 
 The reusable keeps `GITHUB_TOKEN` read-only. Real sync writes require the caller to pass an explicit `sync_token` secret with permission to push the sync branch and open the PR.
 

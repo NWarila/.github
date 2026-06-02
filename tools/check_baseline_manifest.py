@@ -8,7 +8,10 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "baseline-manifest.json"
+MANIFESTS = (
+    ROOT / "baseline-manifest.json",
+    ROOT / "org-adr-manifest.json",
+)
 ADR_ROOT = ROOT / "docs" / "decision-records"
 
 
@@ -25,40 +28,40 @@ def manifest_path(field: str, value: Any) -> str:
     return value
 
 
-def main() -> None:
+def validate_manifest(manifest: Path) -> None:
     try:
-        raw = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        raw = json.loads(manifest.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        fail(f"{MANIFEST.name} is not valid JSON: {exc}")
+        fail(f"{manifest.name} is not valid JSON: {exc}")
 
     if not isinstance(raw, dict) or set(raw) != {"version", "files"}:
-        fail("root must contain exactly 'version' and 'files'")
+        fail(f"{manifest.name}: root must contain exactly 'version' and 'files'")
     if raw["version"] != "1":
-        fail(f"unsupported manifest version: {raw['version']!r}")
+        fail(f"{manifest.name}: unsupported manifest version: {raw['version']!r}")
     files = raw["files"]
     if not isinstance(files, list) or not files:
-        fail("'files' must be a non-empty list")
+        fail(f"{manifest.name}: 'files' must be a non-empty list")
 
     sources: list[str] = []
     targets: set[str] = set()
     for idx, item in enumerate(files):
         if not isinstance(item, dict) or set(item) != {"source", "target"}:
-            fail(f"files[{idx}] must contain exactly 'source' and 'target'")
-        source = manifest_path(f"files[{idx}].source", item["source"])
-        target = manifest_path(f"files[{idx}].target", item["target"])
+            fail(f"{manifest.name}: files[{idx}] must contain exactly 'source' and 'target'")
+        source = manifest_path(f"{manifest.name}: files[{idx}].source", item["source"])
+        target = manifest_path(f"{manifest.name}: files[{idx}].target", item["target"])
         if target in targets:
-            fail(f"duplicate target path: {target!r}")
+            fail(f"{manifest.name}: duplicate target path: {target!r}")
         sources.append(source)
         targets.add(target)
 
     missing = [source for source in sources if not (ROOT / source).is_file()]
     if missing:
-        fail(f"sources missing: {missing}")
+        fail(f"{manifest.name}: sources missing: {missing}")
 
     org_adrs = sorted(path.relative_to(ROOT).as_posix() for path in ADR_ROOT.glob("000*.md"))
     unlisted_adrs = [path for path in org_adrs if path not in sources]
     if unlisted_adrs:
-        fail(f"org ADRs missing from baseline manifest: {unlisted_adrs}")
+        fail(f"{manifest.name}: org ADRs missing from manifest: {unlisted_adrs}")
 
     expected_targets = {
         f"docs/decision-records/org/{Path(source).name}"
@@ -66,9 +69,14 @@ def main() -> None:
     }
     missing_targets = sorted(expected_targets - targets)
     if missing_targets:
-        fail(f"org ADR mirror targets missing from baseline manifest: {missing_targets}")
+        fail(f"{manifest.name}: org ADR mirror targets missing from manifest: {missing_targets}")
 
-    print(f"baseline manifest check passed: {len(files)} files")
+    print(f"{manifest.name} check passed: {len(files)} files")
+
+
+def main() -> None:
+    for manifest in MANIFESTS:
+        validate_manifest(manifest)
 
 
 if __name__ == "__main__":
