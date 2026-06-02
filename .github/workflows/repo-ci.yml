@@ -163,3 +163,14 @@ jobs:
       # Validates the reusable's wiring/inputs; the release-please action and
       # evidence dispatch are skipped (side effects), so no release is made.
       smoke: true
+
+  org-adr-auto-sync-smoke:
+    name: Smoke-test reusable-org-adr-auto-sync (self)
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: ./.github/workflows/reusable-org-adr-auto-sync.yaml
+    with:
+      source_repo: NWarila/.github
+      source_ref: main
+      smoke: true
