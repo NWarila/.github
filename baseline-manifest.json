@@ -70,8 +70,20 @@
       "target": "docs/reference/.gitkeep"
     },
     {
+      "source": "docs/reference/diagram-conventions.md",
+      "target": "docs/reference/diagram-conventions.md"
+    },
+    {
       "source": "docs/explanation/.gitkeep",
       "target": "docs/explanation/.gitkeep"
+    },
+    {
+      "source": "docs/diagrams/.gitkeep",
+      "target": "docs/diagrams/.gitkeep"
+    },
+    {
+      "source": "docs/runbooks/.gitkeep",
+      "target": "docs/runbooks/.gitkeep"
     }
   ]
 }
