@@ -146,5 +146,5 @@ A reader should never have to open the file tree to understand the repo.
 | 12 | Provenance + SBOM attestation where an artifact/image ships | SHOULD |
 | 13 | Template: `is_template`, green "Use this template" result, no placeholder residue | MUST (templates) |
 
-_Standard v1 — applies to all public `NWarila` repositories. Revisions are
-tracked in git history; material changes get a new version heading._
+*Standard v1 — applies to all public `NWarila` repositories. Revisions are
+tracked in git history; material changes get a new version heading.*
