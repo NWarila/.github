@@ -30,6 +30,9 @@ The format used here is established by [ADR-0001](0001-use-architecture-decision
 | [0004](0004-use-renovate-for-dependency-updates.md)    | Use Renovate for Dependency Updates with Per-Template Baselines | Accepted | 2026-05-05 | Standardize on Renovate for all `NWarila/*` repos with type-template baselines that consuming repos extend. |
 | [0005](0005-pin-terraform-and-provider-versions-exactly.md) | Pin Terraform and Provider Versions Exactly              | Accepted | 2026-05-05 | All Terraform configurations in `NWarila/*` pin the Terraform CLI and provider versions exactly using the `=` operator; Renovate uses `rangeStrategy: "pin"`. Refines ADR-0004's rangeStrategy guidance. |
 | [0006](0006-keep-github-control-planes-namespace-local.md) | Keep GitHub Control Planes Namespace-Local              | Accepted | 2026-06-01 | Repositories use their owning namespace's `.github` control plane for org ADRs, community files, repo hygiene, and reusable workflow callers. |
+| [0007](0007-centralize-universal-ci-reusables-within-each-namespace.md) | Centralize Universal CI Reusables Within Each Namespace | Accepted | 2026-06-02 | Universal CI reusable workflows live once in the owning namespace's `.github` control plane and are called by full commit SHA. |
+| [0008](0008-enforce-repo-hygiene-by-repo-type.md) | Enforce Repo Hygiene by Repo Type | Accepted | 2026-06-02 | Apply the same repo-hygiene policy through the invocation mechanism that fits each repository type. |
+| [0009](0009-classify-baseline-manifest-byte-identity.md) | Classify Baseline Manifest Byte Identity | Accepted | 2026-06-02 | Use byte identity only for files that are truly uniform inherited governance or directly used by the consumer. |
 
 ## Status Lifecycle
 

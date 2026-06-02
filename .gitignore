@@ -100,13 +100,19 @@
 !/docs/how-to/.gitkeep
 !/docs/reference/
 !/docs/reference/.gitkeep
+!/docs/reference/alignment-program-lessons.md
+!/docs/reference/ci-alignment-design-intent.md
+!/docs/reference/ci-validator-invocation.md
 !/docs/reference/diagram-conventions.md
+!/docs/reference/mirroring.md
 !/docs/explanation/
 !/docs/explanation/.gitkeep
+!/docs/explanation/repo-type-taxonomy-and-ci-focus.md
 !/docs/diagrams/
 !/docs/diagrams/.gitkeep
 !/docs/runbooks/
 !/docs/runbooks/.gitkeep
+!/docs/runbooks/purge-ai-attributed-history.md
 
 # Allow decision-records directory so architectural decisions are auditable.
 !/docs/decision-records/
@@ -130,3 +136,7 @@
 !/docs/decision-records/0004-use-renovate-for-dependency-updates.md
 !/docs/decision-records/0005-pin-terraform-and-provider-versions-exactly.md
 !/docs/decision-records/0006-keep-github-control-planes-namespace-local.md
+!/docs/decision-records/0007-centralize-universal-ci-reusables-within-each-namespace.md
+!/docs/decision-records/0008-enforce-repo-hygiene-by-repo-type.md
+!/docs/decision-records/0009-classify-baseline-manifest-byte-identity.md
+!/docs/decision-records/0010-keep-ai-attribution-out-of-version-control.md
