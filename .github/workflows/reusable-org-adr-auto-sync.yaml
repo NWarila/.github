@@ -96,7 +96,11 @@ jobs:
           source_repo = os.environ["SOURCE_REPO"]
           source_sha = os.environ["SOURCE_SHA"]
 
-          manifest = json.loads((source_dir / "baseline-manifest.json").read_text(encoding="utf-8"))
+          manifest_path = source_dir / "org-adr-manifest.json"
+          if not manifest_path.is_file():
+              manifest_path = source_dir / "baseline-manifest.json"
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          print(f"using source manifest {manifest_path.name}")
           entries = []
           for item in manifest.get("files", []):
               source = item.get("source")
@@ -142,11 +146,15 @@ jobs:
               lines = text.splitlines(keepends=True)
               changed = False
               source_pattern = re.compile(rf"^\s*source-repo:\s*{re.escape(source_repo)}\s*(?:#.*)?$")
+              manifest_pattern = re.compile(r"^\s*manifest:\s*org-adr-manifest\.json\s*(?:#.*)?$")
               ref_pattern = re.compile(r"^(\s*source-ref:\s*)([^\s#]+)(?:\s*#.*)?(\r?\n?)$")
               for index, line in enumerate(lines):
                   if not source_pattern.match(line):
                       continue
-                  for ref_index in range(index + 1, min(index + 8, len(lines))):
+                  window = lines[index + 1 : min(index + 12, len(lines))]
+                  if not any(manifest_pattern.match(candidate) for candidate in window):
+                      continue
+                  for ref_index in range(index + 1, min(index + 12, len(lines))):
                       match = ref_pattern.match(lines[ref_index])
                       if match:
                           lines[ref_index] = f"{match.group(1)}{source_sha}{match.group(3) or os.linesep}"

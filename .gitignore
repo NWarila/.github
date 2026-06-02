@@ -78,6 +78,7 @@
 
 # Allow baseline manifest so drift-gate has an authoritative org source list.
 !/baseline-manifest.json
+!/org-adr-manifest.json
 
 # Allow README so the special repo's operating model stays documented.
 !/README.md
