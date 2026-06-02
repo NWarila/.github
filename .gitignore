@@ -57,6 +57,7 @@
 !/tools/build_opa_input.py
 !/tools/check_adr_schema.py
 !/tools/check_baseline_manifest.py
+!/tools/check_docs_layout.py
 
 # Allow the universal repo-hygiene OPA policy (evaluated by
 # reusable-repo-hygiene against caller trees; not mirrored into consumers).
@@ -99,8 +100,13 @@
 !/docs/how-to/.gitkeep
 !/docs/reference/
 !/docs/reference/.gitkeep
+!/docs/reference/diagram-conventions.md
 !/docs/explanation/
 !/docs/explanation/.gitkeep
+!/docs/diagrams/
+!/docs/diagrams/.gitkeep
+!/docs/runbooks/
+!/docs/runbooks/.gitkeep
 
 # Allow decision-records directory so architectural decisions are auditable.
 !/docs/decision-records/
