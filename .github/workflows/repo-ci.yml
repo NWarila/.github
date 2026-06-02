@@ -52,6 +52,23 @@ jobs:
           persist-credentials: false
       - run: python tools/check_docs_layout.py
 
+  attribution-residue:
+    name: Validate attribution residue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fetch pull request base
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+      - run: python tools/check_ai_residue.py
+        env:
+          AI_RESIDUE_BASE_REF: origin/${{ github.base_ref }}
+
   adr-schema:
     name: Validate ADR schema
     runs-on: ubuntu-latest
