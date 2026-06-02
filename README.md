@@ -1,5 +1,8 @@
 # .github
 
+[![Repo CI](https://github.com/NWarila/.github/actions/workflows/repo-ci.yml/badge.svg)](https://github.com/NWarila/.github/actions/workflows/repo-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Default GitHub metadata for repositories owned by
 [NWarila](https://github.com/NWarila).
 
