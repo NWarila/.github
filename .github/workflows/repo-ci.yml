@@ -64,6 +64,10 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
         env:
+          # On pull_request, scan origin/<base>..HEAD (the PR's commits).
+          # On push, github.base_ref is empty, so scan github.event.before..HEAD
+          # (every commit in the push) instead of only HEAD — wider coverage,
+          # and avoids re-scanning commits already on the base branch.
 
   adr-schema:
     name: Validate ADR schema
