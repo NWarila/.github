@@ -67,7 +67,11 @@ jobs:
         run: git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
       - run: python tools/check_ai_residue.py
         env:
-          AI_RESIDUE_BASE_REF: origin/${{ github.base_ref }}
+          # On pull_request, scan origin/<base>..HEAD (the PR's commits).
+          # On push, github.base_ref is empty, so scan github.event.before..HEAD
+          # (every commit in the push) instead of only HEAD — wider coverage,
+          # and avoids re-scanning commits already on the base branch.
+          AI_RESIDUE_BASE_REF: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
 
   adr-schema:
     name: Validate ADR schema
