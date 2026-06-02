@@ -55,6 +55,7 @@
 # Allow repo-local validation tools.
 !/tools/
 !/tools/build_opa_input.py
+!/tools/check_adr_schema.py
 !/tools/check_baseline_manifest.py
 
 # Allow the universal repo-hygiene OPA policy (evaluated by
