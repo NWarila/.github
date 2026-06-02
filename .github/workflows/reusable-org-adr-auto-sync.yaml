@@ -131,8 +131,13 @@ jobs:
               shutil.copyfile(src, dst)
               print(f"synced {target}")
 
-          detector = root / ".github" / "workflows" / "org-adr-sync.yaml"
-          if detector.is_file():
+          workflow_dir = root / ".github" / "workflows"
+          detectors = []
+          for pattern in ("*.yml", "*.yaml"):
+              detectors.extend(sorted(workflow_dir.glob(pattern)))
+
+          updated_detectors = []
+          for detector in detectors:
               text = detector.read_text(encoding="utf-8")
               lines = text.splitlines(keepends=True)
               changed = False
@@ -150,9 +155,12 @@ jobs:
                   break
               if changed:
                   detector.write_text("".join(lines), encoding="utf-8")
-                  print(f"updated {detector.relative_to(root).as_posix()} source-ref")
-              else:
-                  print("org-adr-sync.yaml did not contain a matching source-ref to update")
+                  updated_detectors.append(detector.relative_to(root).as_posix())
+          if updated_detectors:
+              for path in updated_detectors:
+                  print(f"updated {path} source-ref")
+          else:
+              print("no workflow source-ref matched the org ADR source repository")
           PY
 
           if [[ "${SMOKE}" == "true" ]]; then
@@ -173,8 +181,8 @@ jobs:
 
           git status --short
           git add docs/decision-records/org
-          if [[ -f .github/workflows/org-adr-sync.yaml ]]; then
-            git add .github/workflows/org-adr-sync.yaml
+          if [[ -d .github/workflows ]]; then
+            git add .github/workflows
           fi
           git commit -m "sync org ADR mirrors"
           git remote set-url origin "https://x-access-token:${SYNC_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
