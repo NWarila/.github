@@ -113,6 +113,7 @@
 !/docs/explanation/repo-type-taxonomy-and-ci-focus.md
 !/docs/diagrams/
 !/docs/diagrams/.gitkeep
+!/docs/diagrams/reusable-workflow-call-graph.mmd
 !/docs/runbooks/
 !/docs/runbooks/.gitkeep
 !/docs/runbooks/purge-ai-attributed-history.md
