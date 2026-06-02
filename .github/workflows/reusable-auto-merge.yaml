@@ -1,8 +1,11 @@
 name: Reusable Auto-Merge
 
-# Enables GitHub auto-merge on pull requests authored by trusted bots once
-# all required status checks pass. Branch protection on `main` is what
-# defines the actual gate; this workflow only flips the auto-merge bit.
+# Enables GitHub auto-merge on pull requests authored by trusted bots. The
+# repo's branch-protection ruleset defines what GitHub waits on before
+# completing the merge; this workflow only flips the auto-merge bit. NOTE:
+# where a repo configures no required status checks (the current
+# NWarila/nwarila-platform posture), auto-merge completes once the review
+# requirements are met and does NOT wait for CI.
 #
 # Trusted authors:
 #   - renovate[bot]
@@ -26,14 +29,17 @@ name: Reusable Auto-Merge
 #
 # Why pull_request_target is safe here: authorization runs in a read-only job
 # first, and the write-token job is skipped unless the PR author is trusted.
-# The OPA policy also rejects checkout/PR-head references in this workflow and
-# in pull_request_target callers so future edits cannot quietly add PR-content
-# reads under the privileged token.
+# That authorize/skip split is the load-bearing safeguard. As defense-in-depth,
+# the OPA repo_hygiene policy also denies a denylist of known checkout/PR-head
+# reference patterns in this workflow and in pull_request_target callers; that
+# substring denylist is not an exhaustive guarantee, so it backstops rather than
+# replaces the read-only-authorization design above.
 #
-# Auto-merge waits for the repo's branch protection required checks to pass
-# before merging. If branch protection isn't configured, GitHub will not
-# allow auto-merge to be enabled at all; `gh pr merge --auto` will fail
-# loudly.
+# Auto-merge waits for whatever the repo's branch-protection ruleset requires
+# before merging. With no required status checks configured (current posture),
+# that is the review requirements only, so it does not wait for CI. If a repo
+# has no merge requirements at all, GitHub may refuse to enable auto-merge and
+# `gh pr merge --auto` fails loudly.
 
 on:
   workflow_call:
