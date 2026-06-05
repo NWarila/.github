@@ -41,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.timeout_minutes }}
     permissions:
-      contents: read
-      security-events: write
-      actions: read
+      contents: read # required by CodeQL to analyze repository contents
+      security-events: write # required to upload CodeQL SARIF to GitHub Security
+      actions: read # required by CodeQL for workflow analysis metadata
 
     strategy:
       fail-fast: false

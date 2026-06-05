@@ -56,7 +56,7 @@ on:
         value: ${{ jobs.release-please.outputs.tag_name }}
 
 permissions:
-  contents: read
+  contents: read # required for smoke validation to inspect release config files
 
 jobs:
   release-please:
@@ -64,10 +64,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-      actions: write
+      contents: write # required by release-please to create releases and tags
+      pull-requests: write # required by release-please to maintain release PRs
+      issues: write # required by release-please to maintain release metadata
+      actions: write # required to dispatch release evidence after a release
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
@@ -83,6 +83,8 @@ jobs:
       - name: Check out (smoke validation only)
         if: ${{ inputs.smoke }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Smoke validate wiring (no release created)
         if: ${{ inputs.smoke }}

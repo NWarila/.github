@@ -33,6 +33,7 @@ The format used here is established by [ADR-0001](0001-use-architecture-decision
 | [0007](0007-centralize-universal-ci-reusables-within-each-namespace.md) | Centralize Universal CI Reusables Within Each Namespace | Accepted | 2026-06-02 | Universal CI reusable workflows live once in the owning namespace's `.github` control plane and are called by full commit SHA. |
 | [0008](0008-enforce-repo-hygiene-by-repo-type.md) | Enforce Repo Hygiene by Repo Type | Accepted | 2026-06-02 | Apply the same repo-hygiene policy through the invocation mechanism that fits each repository type. |
 | [0009](0009-classify-baseline-manifest-byte-identity.md) | Classify Baseline Manifest Byte Identity | Accepted | 2026-06-02 | Use byte identity only for files that are truly uniform inherited governance or directly used by the consumer. |
+| [0011](0011-adopt-two-organization-portfolio-structure.md) | Adopt a Two-Organization Portfolio Structure | Proposed | 2026-06-03 | Record the deliberate split between `NWarila` (architecture/planning) and `nwarila-platform` (engineering that proves out the standards); parent of ADR-0006/0007. |
 
 ## Status Lifecycle
 

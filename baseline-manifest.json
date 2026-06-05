@@ -58,10 +58,6 @@
       "target": "docs/decision-records/org/0009-classify-baseline-manifest-byte-identity.md"
     },
     {
-      "source": "docs/decision-records/0010-keep-ai-attribution-out-of-version-control.md",
-      "target": "docs/decision-records/org/0010-keep-ai-attribution-out-of-version-control.md"
-    },
-    {
       "source": "docs/decision-records/org/.gitkeep",
       "target": "docs/decision-records/org/.gitkeep"
     },
@@ -120,10 +116,6 @@
     {
       "source": "docs/runbooks/.gitkeep",
       "target": "docs/runbooks/.gitkeep"
-    },
-    {
-      "source": "docs/runbooks/purge-ai-attributed-history.md",
-      "target": "docs/runbooks/purge-ai-attributed-history.md"
     }
   ]
 }

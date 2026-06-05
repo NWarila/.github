@@ -7,7 +7,11 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: read # required to check out and inspect repository contents
+
+concurrency:
+  group: repo-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   actionlint:
@@ -52,23 +56,6 @@ jobs:
           persist-credentials: false
       - run: python tools/check_docs_layout.py
 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Fetch pull request base
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
-        env:
-          # On pull_request, scan origin/<base>..HEAD (the PR's commits).
-          # On push, github.base_ref is empty, so scan github.event.before..HEAD
-          # (every commit in the push) instead of only HEAD — wider coverage,
-          # and avoids re-scanning commits already on the base branch.
-
   adr-schema:
     name: Validate ADR schema
     runs-on: ubuntu-latest
@@ -97,7 +84,7 @@ jobs:
   repo-hygiene-smoke:
     name: Smoke-test reusable-repo-hygiene (self)
     permissions:
-      contents: read
+      contents: read # required by reusable-repo-hygiene to inspect repository contents
     uses: ./.github/workflows/reusable-repo-hygiene.yaml
     with:
       source_ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -105,9 +92,9 @@ jobs:
   codeql-smoke:
     name: Smoke-test reusable-codeql (self)
     permissions:
-      contents: read
-      security-events: write
-      actions: read
+      contents: read # required by CodeQL to analyze repository contents
+      security-events: write # required to upload CodeQL SARIF to GitHub Security
+      actions: read # required by CodeQL for workflow analysis metadata
     uses: ./.github/workflows/reusable-codeql.yaml
     # Default matrix is the `actions` language — analyzes .github's own
     # workflows, which is exactly the runtime path this repo must prove.
@@ -115,9 +102,9 @@ jobs:
   iac-security-smoke:
     name: Smoke-test reusable-iac-security (self)
     permissions:
-      contents: read
-      security-events: write
-      actions: read
+      contents: read # required by IaC scanners to inspect repository contents
+      security-events: write # required to upload scanner SARIF to GitHub Security
+      actions: read # required for workflow and SARIF upload metadata
     uses: ./.github/workflows/reusable-iac-security.yaml
     # All inputs optional; defaults run trivy + gitleaks + zizmor (the
     # fragile pip-install / docker-digest / inline-SARIF runtime paths).
@@ -125,10 +112,10 @@ jobs:
   scorecard-smoke:
     name: Smoke-test reusable-scorecard (self)
     permissions:
-      contents: read
-      security-events: write
-      id-token: write
-      actions: read
+      contents: read # required by Scorecard to inspect repository contents
+      security-events: write # required to upload Scorecard SARIF to GitHub Security
+      id-token: write # required by Scorecard for OIDC-backed publishing paths
+      actions: read # required by Scorecard for workflow security checks
     uses: ./.github/workflows/reusable-scorecard.yaml
     # publish_results defaults to false: runs the scorecard analysis + SARIF
     # upload without publishing to the public API.
@@ -140,8 +127,8 @@ jobs:
     # enable-auto-merge job is skipped in smoke mode, so the write token is
     # never used to merge anything.
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # required by the reusable auto-merge job contract
+      pull-requests: write # required by the reusable to enable PR auto-merge
     uses: ./.github/workflows/reusable-auto-merge.yaml
     with:
       # Exercises the trust-check authorize bash; enable-auto-merge is
@@ -154,10 +141,10 @@ jobs:
     # validates reusable permissions at startup). In smoke mode the action and
     # the evidence dispatch are skipped, so the write token is never used.
     permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-      actions: write
+      contents: write # required by release-please to create releases and tags
+      pull-requests: write # required by release-please to maintain release PRs
+      issues: write # required by release-please to maintain release metadata
+      actions: write # required to dispatch release evidence after a release
     uses: ./.github/workflows/reusable-release-please.yaml
     with:
       # Validates the reusable's wiring/inputs; the release-please action and
@@ -167,8 +154,8 @@ jobs:
   org-adr-auto-sync-smoke:
     name: Smoke-test reusable-org-adr-auto-sync (self)
     permissions:
-      contents: read
-      pull-requests: read
+      contents: read # required by org ADR sync to inspect mirrored ADR files
+      pull-requests: read # required by org ADR sync smoke wiring
     uses: ./.github/workflows/reusable-org-adr-auto-sync.yaml
     with:
       source_repo: NWarila/.github
