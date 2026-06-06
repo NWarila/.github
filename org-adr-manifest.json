@@ -38,6 +38,10 @@
                       "target":  "docs/decision-records/org/0009-classify-baseline-manifest-byte-identity.md"
                   },
                   {
+                      "source":  "docs/decision-records/0011-adopt-two-organization-portfolio-structure.md",
+                      "target":  "docs/decision-records/org/0011-adopt-two-organization-portfolio-structure.md"
+                  },
+                  {
                       "source":  "docs/decision-records/org/.gitkeep",
                       "target":  "docs/decision-records/org/.gitkeep"
                   }
