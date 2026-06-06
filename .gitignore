@@ -113,6 +113,7 @@
 !/docs/explanation/repo-type-taxonomy-and-ci-focus.md
 !/docs/diagrams/
 !/docs/diagrams/.gitkeep
+!/docs/diagrams/example-flow.mmd
 !/docs/diagrams/reusable-workflow-call-graph.mmd
 !/docs/runbooks/
 !/docs/runbooks/.gitkeep
@@ -142,3 +143,4 @@
 !/docs/decision-records/0007-centralize-universal-ci-reusables-within-each-namespace.md
 !/docs/decision-records/0008-enforce-repo-hygiene-by-repo-type.md
 !/docs/decision-records/0009-classify-baseline-manifest-byte-identity.md
+!/docs/decision-records/0011-adopt-two-organization-portfolio-structure.md
