@@ -1,0 +1,6 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Invalid fixture used to prove the Renovate validator fails closed.",
+  "extends": ["config:recommended"],
+  "prHourlyLimit": "two"
+}
