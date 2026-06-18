@@ -71,8 +71,8 @@
         "/(^|/)docs/.+\\.md$/"
       ],
       "matchStrings": [
-        "(?<replaceString>(?<identityPrefix>--certificate-identity(?:=|\\s+)[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3_provenance\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))",
-        "(?<replaceString>(?<identityPrefix>--signer-workflow\\s+[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3_provenance\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))"
+        "(?<replaceString>(?<identityPrefix>--certificate-identity(?:=|\\s+)[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))",
+        "(?<replaceString>(?<identityPrefix>--signer-workflow\\s+[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))"
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "slsa-framework/slsa-github-generator",
