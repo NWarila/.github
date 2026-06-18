@@ -11,11 +11,11 @@ jobs:
       - uses: actions/setup-go@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb # v6.0.0
         with:
           go-version: "1.25.3"
-      - uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3_provenance.yml@cccccccccccccccccccccccccccccccccccccccc # v2.1.0
+      - uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@cccccccccccccccccccccccccccccccccccccccc # v2.1.0
       - name: verify signer
         run: |
-          cosign verify-attestation ghcr.io/nwarila-platform/base-node@sha256:3333333333333333333333333333333333333333333333333333333333333333 --certificate-identity=https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3_provenance.yml@refs/tags/v2.1.0 --certificate-oidc-issuer=https://token.actions.githubusercontent.com
-          gh attestation verify oci://ghcr.io/nwarila-platform/base-node@sha256:3333333333333333333333333333333333333333333333333333333333333333 --signer-workflow https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3_provenance.yml@refs/tags/v2.1.0
+          cosign verify-attestation ghcr.io/nwarila-platform/base-node@sha256:3333333333333333333333333333333333333333333333333333333333333333 --certificate-identity=https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v2.1.0 --certificate-oidc-issuer=https://token.actions.githubusercontent.com
+          gh attestation verify oci://ghcr.io/nwarila-platform/base-node@sha256:3333333333333333333333333333333333333333333333333333333333333333 --signer-workflow https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v2.1.0
       - name: run gates
         run: |
           podman run --rm ghcr.io/nwarila-platform/base-node@sha256:3333333333333333333333333333333333333333333333333333333333333333 true
