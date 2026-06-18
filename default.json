@@ -1,0 +1,232 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared UBI9 platform preset for digest-pinned base and gate image cascades, SLSA generator signer identity lockstep, gate-iac fleet tools, Go-FIPS exclusions, and bounded PR fan-out.",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits"
+  ],
+  "enabledManagers": [
+    "dockerfile",
+    "github-actions",
+    "custom.regex"
+  ],
+  "prConcurrentLimit": 4,
+  "prHourlyLimit": 2,
+  "branchConcurrentLimit": 6,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Targets the workflow/script side of PLATFORM-PLAN 2.8: base[-variant]@digest cascade for ghcr.io/nwarila-platform/base-{micro,python,node,java}(-dev). Dockerfile FROM is handled by the native dockerfile manager for the DoD E5 convention: UBI FROM lines are digest-pinned (@sha256:) with Renovate annotations.",
+      "managerFilePatterns": [
+        "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js)$/"
+      ],
+      "matchStrings": [
+        "(?:docker|podman)\\s+run[^\\n\\r]*?(?<replaceString>(?<depName>ghcr\\.io/nwarila-platform/base-(?:micro|python|node|java)(?:-dev)?)@(?<currentDigest>sha256:[a-f0-9]{64}))"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "{{{depName}}}",
+      "currentValueTemplate": "latest",
+      "versioningTemplate": "docker",
+      "autoReplaceStringTemplate": "{{{depName}}}@{{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Targets PLATFORM-PLAN 2.5 and 2.8: each self-owned workflow consumes gate images by docker/podman run @digest, with gate-image digest bumps cascading to consumers.",
+      "managerFilePatterns": [
+        "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js)$/"
+      ],
+      "matchStrings": [
+        "(?:docker|podman)\\s+run[^\\n\\r]*?(?<replaceString>(?<depName>ghcr\\.io/nwarila-platform/gate-(?:python|actions|supplychain|sign|k8s|ansible|packer))@(?<currentDigest>sha256:[a-f0-9]{64}))"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "{{{depName}}}",
+      "currentValueTemplate": "latest",
+      "versioningTemplate": "docker",
+      "autoReplaceStringTemplate": "{{{depName}}}@{{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Targets PLATFORM-PLAN 2.4 and 2.8: gate-iac keeps Terraform as the intentional tag-per-pin fan-out while each tag remains digest-pinned.",
+      "managerFilePatterns": [
+        "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js)$/"
+      ],
+      "matchStrings": [
+        "(?:docker|podman)\\s+run[^\\n\\r]*?(?<replaceString>(?<depName>ghcr\\.io/nwarila-platform/gate-iac):(?<currentValue>1\\.15\\.(?:1|2|4|6))@(?<currentDigest>sha256:[a-f0-9]{64}))"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "{{{depName}}}",
+      "versioningTemplate": "docker",
+      "autoReplaceStringTemplate": "{{{depName}}}:{{#if newValue}}{{{newValue}}}{{else}}{{{currentValue}}}{{/if}}@{{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Targets the exact signer identity convention in docs/ubi9-base-DoD.md C1/D2 and PLATFORM-PLAN 2.2: --certificate-identity and --signer-workflow point to the SLSA generator reusable workflow ref at refs/tags/vX.Y.Z.",
+      "managerFilePatterns": [
+        "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js)$/",
+        "/(^|/)docs/.+\\.md$/"
+      ],
+      "matchStrings": [
+        "(?<replaceString>(?<identityPrefix>--certificate-identity(?:=|\\s+)[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3_provenance\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))",
+        "(?<replaceString>(?<identityPrefix>--signer-workflow\\s+[\"']?https://github\\.com/slsa-framework/slsa-github-generator/\\.github/workflows/generator_container_slsa3_provenance\\.yml@refs/tags/)(?<currentValue>v\\d+\\.\\d+\\.\\d+))"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "slsa-framework/slsa-github-generator",
+      "packageNameTemplate": "slsa-framework/slsa-github-generator",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver",
+      "autoReplaceStringTemplate": "{{{identityPrefix}}}{{{newValue}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Targets PLATFORM-PLAN 2.4 and 2.8: gate-iac accepts tflint, terraform-docs, and OPA/conftest as one fleet version set. The pin convention is a renovate: gate-iac-fleet annotation immediately before the VERSION literal.",
+      "managerFilePatterns": [
+        "/(^|/)(?:Dockerfile|Containerfile)(?:\\.[^/]*)?$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js|env)$/",
+        "/(^|/)\\.tool-versions$/"
+      ],
+      "matchStrings": [
+        "#\\s*renovate:\\s*gate-iac-fleet\\s+datasource=(?<datasource>github-releases|github-tags)\\s+depName=(?<depName>terraform-linters/tflint|terraform-docs/terraform-docs|open-policy-agent/(?:opa|conftest))(?:\\s+extractVersion=(?<extractVersion>\\S+))?\\s*\\r?\\n\\s*(?:ENV\\s+|ARG\\s+)?[A-Z0-9_]*(?:TFLINT|TERRAFORM_DOCS|OPA|CONFTEST)[A-Z0-9_]*_VERSION\\s*[=:]\\s*[\"']?(?<currentValue>v?\\d+\\.\\d+\\.\\d+)"
+      ],
+      "packageNameTemplate": "{{{depName}}}",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Targets the Go-FIPS builder boundary in PLATFORM-PLAN 2.2 and 2.8: GOFIPS140=v1.0.0 rides CMVP #5247 and stays on Go 1.24/1.25, not 1.26. Pins are detected so package rules can disable automation and keep the <1.26 clamp visible.",
+      "managerFilePatterns": [
+        "/(^|/)(?:Dockerfile|Containerfile)(?:\\.[^/]*)?$/",
+        "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+        "/(^|/)(scripts|tools)/.+\\.(?:sh|bash|ps1|psm1|py|mjs|js|env)$/"
+      ],
+      "matchStrings": [
+        "#\\s*renovate:\\s*go-fips-builder\\s*\\r?\\n\\s*(?:ENV\\s+|ARG\\s+)?(?:GO|GOLANG)_VERSION\\s*[=:]\\s*[\"']?(?<currentValue>\\d+\\.\\d+(?:\\.\\d+)?)"
+      ],
+      "datasourceTemplate": "golang-version",
+      "depNameTemplate": "golang/go",
+      "packageNameTemplate": "golang/go",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group UBI9 base image digest updates so micro and variant bumps are reviewed as one cascade.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "/^ghcr\\.io\\/nwarila-platform\\/base-(?:micro|python|node|java)(?:-dev)?$/"
+      ],
+      "groupName": "ubi9 base image digest cascade",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "ubi9-base-digests"
+    },
+    {
+      "description": "Group gate image digest updates while preserving the image-by-digest consumption contract.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "/^ghcr\\.io\\/nwarila-platform\\/gate-(?:python|actions|supplychain|sign|k8s|ansible|packer)$/"
+      ],
+      "groupName": "ubi9 gate image digest cascade",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "ubi9-gate-digests"
+    },
+    {
+      "description": "Group the SLSA generator reusable workflow SHA and the verifier signer-identity tag into one PR so verification cannot drift from the generator pin.",
+      "matchPackageNames": [
+        "slsa-framework/slsa-github-generator"
+      ],
+      "groupName": "slsa generator signer identity lockstep",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "slsa-generator"
+    },
+    {
+      "description": "Keep tflint, terraform-docs, and OPA/conftest accepted in one gate-iac fleet version set.",
+      "matchPackageNames": [
+        "terraform-linters/tflint",
+        "terraform-docs/terraform-docs",
+        "open-policy-agent/opa",
+        "open-policy-agent/conftest"
+      ],
+      "groupName": "gate-iac fleet toolchain",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "gate-iac-fleet"
+    },
+    {
+      "description": "Preserve gate-iac Terraform tag-per-pin fan-out: digest refreshes may happen per pinned tag, but Renovate must not retag 1.15.1/.2/.4/.6 into one Terraform line.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/nwarila-platform/gate-iac"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Go-FIPS builder is manual-only because GOFIPS140=v1.0.0 maps to CMVP #5247 on Go 1.24/1.25; keep the belt-and-suspenders <1.26 clamp visible even though automation is disabled.",
+      "matchDatasources": [
+        "golang-version"
+      ],
+      "matchPackageNames": [
+        "golang/go"
+      ],
+      "allowedVersions": "<1.26",
+      "enabled": false
+    },
+    {
+      "description": "Go-FIPS builder pins surfaced through asdf/mise use github-tags for golang/go; keep them manual-only and clamped below 1.26.",
+      "matchDatasources": [
+        "github-tags"
+      ],
+      "matchPackageNames": [
+        "golang/go"
+      ],
+      "allowedVersions": "<1.26",
+      "enabled": false
+    },
+    {
+      "description": "actions/setup-go itself is manual-only for Go-FIPS leaves so the builder path cannot move without a dedicated review.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "actions/setup-go"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "setup-go go-version inputs are manual-only and clamped below 1.26 for the GOFIPS140 boundary.",
+      "matchDatasources": [
+        "github-releases"
+      ],
+      "matchPackageNames": [
+        "actions/go-versions"
+      ],
+      "allowedVersions": "<1.26",
+      "enabled": false
+    },
+    {
+      "description": "Docker golang builder images are manual-only and clamped below 1.26 for the GOFIPS140 boundary.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "golang",
+        "/^.*\\/golang$/"
+      ],
+      "allowedVersions": "<1.26",
+      "enabled": false
+    }
+  ]
+}

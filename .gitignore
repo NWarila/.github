@@ -22,6 +22,7 @@
 
 # Allow this repo's own Renovate config (governs only .github's own deps; not an org baseline — ADR-0004).
 !/.github/renovate.json5
+!/default.json
 
 # Allow bug form so default defect intake stays consistent across repos.
 !/.github/ISSUE_TEMPLATE/01-bug-report.yml
@@ -59,6 +60,13 @@
 !/tools/check_adr_schema.py
 !/tools/check_baseline_manifest.py
 !/tools/check_docs_layout.py
+!/tools/check_ubi9_renovate_preset.mjs
+!/tools/fixtures/
+!/tools/fixtures/ubi9-renovate/
+!/tools/fixtures/ubi9-renovate/Dockerfile
+!/tools/fixtures/ubi9-renovate/gate-iac.env
+!/tools/fixtures/ubi9-renovate/invalid-default.json
+!/tools/fixtures/ubi9-renovate/workflow.yml
 
 # Allow the universal repo-hygiene OPA policy (evaluated by
 # reusable-repo-hygiene against caller trees; not mirrored into consumers).
@@ -142,3 +150,4 @@
 !/docs/decision-records/0007-centralize-universal-ci-reusables-within-each-namespace.md
 !/docs/decision-records/0008-enforce-repo-hygiene-by-repo-type.md
 !/docs/decision-records/0009-classify-baseline-manifest-byte-identity.md
+!/docs/decision-records/0010-adopt-ubi9-platform-renovate-preset.md
