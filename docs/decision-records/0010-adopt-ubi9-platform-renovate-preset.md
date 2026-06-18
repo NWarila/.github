@@ -60,6 +60,29 @@ The preset owns these cross-platform rules:
 
 ADR-0004 remains valid for non-UBI9 stack-local baselines. This decision narrows and supersedes ADR-0004 only where a UBI9 platform repository needs the shared cascade preset.
 
+## Pros and Cons of the Options
+
+### Option 1: Keep ADR-0004 unchanged and copy rules into every type-template
+
+- **Good, because** no new inherited preset source is added.
+- **Good, because** existing template-local Renovate ownership remains untouched.
+- **Bad, because** signer identity, base digest, and gate digest rules can drift between templates.
+- **Bad, because** every new platform repository has to rediscover the same supply-chain rules.
+
+### Option 2: Publish one broad org Renovate baseline
+
+- **Good, because** consumers inherit a single Renovate source.
+- **Good, because** broad dependency policy can be reviewed centrally.
+- **Bad, because** ADR-0004's stack-specific concern still applies outside the UBI9 cascade layer.
+- **Bad, because** stack-local package manager behavior would be coupled to platform provenance policy.
+
+### Option 3: Publish one narrow UBI9 platform preset
+
+- **Good, because** provenance, digest, and Go-FIPS boundaries stay uniform across consumers.
+- **Good, because** type-template baselines can continue to own stack-local package rules.
+- **Good, because** the preset can be resolved across organizations without copying policy.
+- **Neutral, because** adopters must add one explicit `extends` entry.
+
 ## Cap Rationale
 
 | Cap | Value | Rationale |
@@ -97,7 +120,36 @@ Adherence is confirmed by:
 - Live cross-organization resolution still depends on the Renovate App being installed and is verified separately after merge.
 - The preset encodes rules and grouping only; it does not pin produced image digests itself.
 
+## Assumptions
+
+1. UBI9 platform consumer repositories explicitly extend `github>NWarila/.github`.
+2. Produced UBI9 base and gate images remain published under `ghcr.io/nwarila-platform`.
+3. Consumers keep digest-pinned image references where the preset is expected to cascade digests.
+4. Go-FIPS builder upgrades past Go 1.25 require a separate review of the active GOFIPS140 boundary.
+
+## Supersedes
+
+ADR-0004 for the UBI9 platform shared cascade preset scope only. ADR-0004 remains current for non-UBI9 and stack-local Renovate baselines.
+
+## Superseded by
+
+None (current).
+
+## Implementing PRs
+
+- NWarila/.github#32
+
 ## Related ADRs
 
 - [ADR-0004](0004-use-renovate-for-dependency-updates.md) - records the earlier per-template Renovate baseline model that remains valid for non-UBI9 stack-local concerns.
 - [ADR-0005](0005-pin-terraform-and-provider-versions-exactly.md) - records the Terraform exact-version policy preserved by the gate-iac tag-per-pin rule.
+
+## Compliance Notes
+
+This decision supports configuration-management evidence by publishing one validated preset, one negative validation fixture, and one deterministic extraction fixture set. The preset deliberately bounds Renovate branch and PR fan-out before downstream runner controls are involved.
+
+## Changelog
+
+| Date       | Change                                         | Reason                                             | Author/Role                       | Body-diff? |
+| ---------- | ---------------------------------------------- | -------------------------------------------------- | --------------------------------- | ---------- |
+| 2026-06-18 | Accepted the narrow UBI9 platform preset rule. | Keep provenance, digest, and Go-FIPS rules uniform. | Portfolio maintainer / governance | Yes        |
