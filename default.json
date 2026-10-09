@@ -110,6 +110,17 @@
       "depNameTemplate": "golang/go",
       "packageNameTemplate": "golang/go",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.*\\.ya?ml$/"
+      ],
+      "versioningTemplate": "semver",
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9._-]+) depName=(?<depName>[^\\s]+)\\s+version:\\s*(?<currentValue>[^\\s]+)\\s+digest:\\s*(?<currentDigest>sha256:[a-f0-9]{64})",
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9._-]+) depName=(?<depName>[^\\s]+)\\s+version=(?<currentValue>[^\\s]+)\\s+digest=(?<currentDigest>sha256:[a-f0-9]{64})"
+      ]
     }
   ],
   "packageRules": [
@@ -227,6 +238,12 @@
       ],
       "allowedVersions": "<1.26",
       "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/nwarila-platform/**"
+      ],
+      "minimumReleaseAge": null
     }
   ]
 }
