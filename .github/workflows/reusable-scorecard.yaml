@@ -81,7 +81,7 @@ jobs:
 
       - name: Run Scorecard analysis
         # renovate: datasource=github-releases depName=ossf/scorecard-action
-        uses: ossf/scorecard-action@99c09fe975337306107572b4fdf4db224cf8e2f2 # v2.4.3
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
         # continue-on-error keeps the job green on private repos where
         # scorecard's GraphQL queries fail with "Resource not accessible
         # by integration." Private repos can't fully use Scorecard without
